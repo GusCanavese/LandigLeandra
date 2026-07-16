@@ -85,7 +85,7 @@ function validateForm() {
 
 function buildMessage() {
   const get = (id) => document.getElementById(id).value.trim();
-  return ["Olá, gostaria de solicitar um Diagnóstico Empresarial Gratuito.", "", `Nome: ${get("name")}`, `Empresa: ${get("company")}`, `WhatsApp: ${get("phone")}`, `E-mail: ${get("email")}`, `Segmento: ${get("segment")}`, `Funcionários (aprox.): ${get("employees") || "Não informado"}`, `Principal dificuldade: ${get("challenge")}`].join("\n");
+  return ["Olá! Gostaria de agendar meu diagnóstico empresarial gratuito.", "", `Nome: ${get("name")}`, `Empresa: ${get("company")}`, `WhatsApp: ${get("phone")}`, `E-mail: ${get("email")}`, `Segmento: ${get("segment")}`, `Funcionários (aprox.): ${get("employees") || "Não informado"}`, `Ponto que mais preocupa hoje: ${get("challenge")}`].join("\n");
 }
 
 function showStatus(message) {
@@ -97,12 +97,12 @@ function handleSubmit(event) {
   event.preventDefault();
   statusMessage.classList.remove("visible");
   if (!validateForm()) { showStatus("Revise os campos destacados antes de continuar."); form.querySelector(".field-error")?.focus(); return; }
-  if (!/^\d{10,15}$/.test(whatsappNumber)) { showStatus("O número de WhatsApp ainda precisa ser cadastrado no início do arquivo script.js. Nenhum dado foi enviado."); return; }
+  if (!/^\d{10,15}$/.test(whatsappNumber)) { showStatus("O contato por WhatsApp ainda está sendo configurado. Nenhum dado foi enviado."); return; }
   const submitButton = form.querySelector(".submit-button");
   submitButton.disabled = true;
   submitButton.textContent = "Abrindo WhatsApp...";
   window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(buildMessage())}`, "_blank", "noopener,noreferrer");
-  window.setTimeout(() => { submitButton.disabled = false; submitButton.textContent = "Preparar mensagem no WhatsApp"; showStatus("A mensagem foi preparada no WhatsApp. Confirme o envio por lá."); }, 600);
+  window.setTimeout(() => { submitButton.disabled = false; submitButton.textContent = "Agendar diagnóstico gratuito"; showStatus("A mensagem foi preparada no WhatsApp. Confirme o envio por lá."); }, 600);
 }
 
 function pauseCarouselVideos(except = null, reset = true) {
@@ -148,7 +148,7 @@ function configureCarousel() {
         dot.type = "button";
         dot.className = "carousel-dot";
         dot.setAttribute("role", "tab");
-        dot.setAttribute("aria-label", `Ir para posição ${index + 1} de ${positionCount}`);
+        dot.setAttribute("aria-label", `Ver depoimento ${index + 1} de ${positionCount}`);
         dot.addEventListener("click", () => goTo(index));
         dots.appendChild(dot);
       });
@@ -207,8 +207,8 @@ function configureLightbox() {
   lightbox.className = "feedback-lightbox";
   lightbox.setAttribute("role", "dialog");
   lightbox.setAttribute("aria-modal", "true");
-  lightbox.setAttribute("aria-label", "Feedback ampliado");
-  lightbox.innerHTML = '<button type="button" class="lightbox-close" aria-label="Fechar imagem ampliada">×</button><img alt="Feedback ampliado">';
+  lightbox.setAttribute("aria-label", "Depoimento ampliado");
+  lightbox.innerHTML = '<button type="button" class="lightbox-close" aria-label="Fechar depoimento ampliado">×</button><img alt="Depoimento ampliado">';
   document.body.appendChild(lightbox);
   const image = lightbox.querySelector("img");
   const close = lightbox.querySelector("button");
