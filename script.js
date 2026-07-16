@@ -19,6 +19,18 @@ function toggleMenu(forceClose = false) {
 function configureNavigation() {
   menuButton.addEventListener("click", () => toggleMenu());
   navigation.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => toggleMenu(true)));
+  document.addEventListener("click", (event) => {
+    if (navigation.classList.contains("open") && !navigation.contains(event.target) && !menuButton.contains(event.target)) toggleMenu(true);
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && navigation.classList.contains("open")) {
+      toggleMenu(true);
+      menuButton.focus();
+    }
+  });
+  window.matchMedia("(min-width: 901px)").addEventListener("change", (event) => {
+    if (event.matches && navigation.classList.contains("open")) toggleMenu(true);
+  });
 }
 
 function configureFaq() {
@@ -111,17 +123,11 @@ function configureCarousel() {
   const next = carousel.querySelector("[data-next]");
   const dots = carousel.querySelector(".carousel-dots");
   let current = 0;
+  let activePointer = null;
   let startX = 0;
   let deltaX = 0;
 
-  cards.forEach((card, index) => {
-    const dot = document.createElement("button");
-    dot.type = "button";
-    dot.className = "carousel-dot";
-    dot.setAttribute("role", "tab");
-    dot.setAttribute("aria-label", `Ir para feedback ${index + 1}`);
-    dot.addEventListener("click", () => goTo(index));
-    dots.appendChild(dot);
+  cards.forEach((card) => {
     card.querySelector("video")?.addEventListener("play", (event) => pauseCarouselVideos(event.currentTarget, false));
   });
 
@@ -133,8 +139,25 @@ function configureCarousel() {
 
   function maxIndex() { return Math.max(0, cards.length - visibleCards()); }
 
+  function updateDots() {
+    const positionCount = maxIndex() + 1;
+    if (dots.children.length !== positionCount) {
+      dots.replaceChildren();
+      Array.from({ length: positionCount }, (_, index) => {
+        const dot = document.createElement("button");
+        dot.type = "button";
+        dot.className = "carousel-dot";
+        dot.setAttribute("role", "tab");
+        dot.setAttribute("aria-label", `Ir para posição ${index + 1} de ${positionCount}`);
+        dot.addEventListener("click", () => goTo(index));
+        dots.appendChild(dot);
+      });
+    }
+  }
+
   function update() {
     current = Math.min(current, maxIndex());
+    updateDots();
     const gap = parseFloat(getComputedStyle(track).gap) || 0;
     const width = cards[0].getBoundingClientRect().width + gap;
     track.style.transform = `translateX(${-current * width}px)`;
@@ -156,9 +179,25 @@ function configureCarousel() {
     if (event.key === "ArrowLeft") { event.preventDefault(); goTo(current - 1); }
     if (event.key === "ArrowRight") { event.preventDefault(); goTo(current + 1); }
   });
-  track.addEventListener("pointerdown", (event) => { startX = event.clientX; deltaX = 0; track.setPointerCapture(event.pointerId); });
-  track.addEventListener("pointermove", (event) => { if (startX) deltaX = event.clientX - startX; });
-  track.addEventListener("pointerup", () => { if (Math.abs(deltaX) > 55) goTo(current + (deltaX < 0 ? 1 : -1)); startX = 0; deltaX = 0; });
+  track.addEventListener("pointerdown", (event) => {
+    if (!event.isPrimary || event.target.closest("video, button, a, input, textarea")) return;
+    activePointer = event.pointerId;
+    startX = event.clientX;
+    deltaX = 0;
+    track.setPointerCapture(event.pointerId);
+  });
+  track.addEventListener("pointermove", (event) => {
+    if (event.pointerId === activePointer) deltaX = event.clientX - startX;
+  });
+  function finishSwipe(event) {
+    if (event.pointerId !== activePointer) return;
+    if (Math.abs(deltaX) > 55) goTo(current + (deltaX < 0 ? 1 : -1));
+    activePointer = null;
+    startX = 0;
+    deltaX = 0;
+  }
+  track.addEventListener("pointerup", finishSwipe);
+  track.addEventListener("pointercancel", finishSwipe);
   window.addEventListener("resize", update);
   update();
 }
