@@ -109,3 +109,19 @@ img,video,svg{max-width:100%}
   .carousel-controls{gap:4px}
   .carousel-dots{gap:0}
 }
+
+/* Apresentação da Consultoria Prevent360 */
+.diagnostic .split{align-items:center}
+.diagnostic .split>div:first-child>p:not(.eyebrow){margin-top:18px;color:var(--muted)}
+.diagnostic .split>div:first-child>p strong{color:var(--primary)}
+.prevent360-panel{overflow:hidden;border:1px solid var(--line);background:var(--white);box-shadow:0 22px 50px rgba(16,28,37,.08)}
+.prevent360-signature{padding:32px 36px;background:var(--primary);color:var(--white)}
+.prevent360-logo{display:block;width:100%;height:auto}
+.prevent360-signature p{max-width:520px;margin:16px 0 0;color:#c4d5de;font-size:15px}
+.prevent360-panel .benefit-list{padding:12px 36px 24px}
+.prevent360-panel .benefit-list p{margin:0}
+
+@media(max-width:560px){
+  .prevent360-signature{padding:26px 22px}
+  .prevent360-panel .benefit-list{padding:10px 22px 20px}
+}

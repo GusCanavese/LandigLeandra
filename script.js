@@ -85,7 +85,7 @@ function validateForm() {
 
 function buildMessage() {
   const get = (id) => document.getElementById(id).value.trim();
-  return ["Olá! Gostaria de agendar meu diagnóstico empresarial gratuito.", "", `Nome: ${get("name")}`, `Empresa: ${get("company")}`, `WhatsApp: ${get("phone")}`, `E-mail: ${get("email")}`, `Segmento: ${get("segment")}`, `Funcionários (aprox.): ${get("employees") || "Não informado"}`, `Ponto que mais preocupa hoje: ${get("challenge")}`].join("\n");
+  return ["Olá! Gostaria de conhecer a Prevent360 e agendar meu diagnóstico empresarial gratuito.", "", `Nome: ${get("name")}`, `Empresa: ${get("company")}`, `WhatsApp: ${get("phone")}`, `E-mail: ${get("email")}`, `Segmento: ${get("segment")}`, `Funcionários (aprox.): ${get("employees") || "Não informado"}`, `Ponto que mais preocupa hoje: ${get("challenge")}`].join("\n");
 }
 
 function showStatus(message) {
