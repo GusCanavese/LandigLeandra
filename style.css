@@ -5,6 +5,13 @@
 @media(max-width:560px){.testimonial-card{flex-basis:100%;min-height:420px;padding:14px}.testimonial-card video,.testimonial-card img{max-height:560px}.carousel-controls{gap:10px}.carousel-arrow{width:42px;height:42px}.feedback-lightbox{padding:14px}.lightbox-close{top:10px;right:10px}}
 @media(prefers-reduced-motion:reduce){.carousel-track{transition:none}}
 
+/* Entrada suave dos principais blocos, ativada somente quando o JavaScript está disponível. */
+.solution-grid article{display:grid;align-content:start}.solution-grid h3{grid-column:1/-1;margin:24px 4px 8px;font:500 23px var(--serif)}.process-button{margin-top:35px}
+.reveal-ready .reveal{opacity:0;transform:translateY(20px);transition:opacity 600ms ease,transform 600ms ease;transition-delay:var(--reveal-delay,0ms)}
+.reveal-ready .reveal.is-visible{opacity:1;transform:translateY(0)}
+@media(min-width:901px){.solution-grid{grid-template-columns:repeat(3,1fr);gap:35px}.solution-grid article span{margin-right:0}}
+@media(prefers-reduced-motion:reduce){.reveal-ready .reveal{opacity:1;transform:none;transition:none}}
+
 /* Responsive refinements for the existing layout */
 img,video,svg{max-width:100%}
 

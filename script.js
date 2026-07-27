@@ -220,11 +220,29 @@ function configureLightbox() {
   document.addEventListener("keydown", (event) => { if (event.key === "Escape" && lightbox.classList.contains("open")) closeLightbox(); });
 }
 
+function configureScrollReveal() {
+  if (!("IntersectionObserver" in window) || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const elements = document.querySelectorAll(".hero-copy, .hero-visual, .section-heading, .diagnostic .split > *, .risks .container > :not(.risk-grid), .risk-grid article, .solution-grid article, .process .container > :not(.steps), .steps article, .about .split > *, .faq .container > :not(.faq-list), .faq-list article, .contact-grid > *");
+  elements.forEach((element) => {
+    element.classList.add("reveal");
+    const card = element.matches(".risk-grid article, .solution-grid article, .steps article");
+    if (card) element.style.setProperty("--reveal-delay", `${Array.from(element.parentElement.children).indexOf(element) % 4 * 70}ms`);
+  });
+  document.documentElement.classList.add("reveal-ready");
+  const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
+    if (!entry.isIntersecting) return;
+    entry.target.classList.add("is-visible");
+    observer.unobserve(entry.target);
+  }), { threshold: 0.12 });
+  elements.forEach((element) => observer.observe(element));
+}
+
 function initialize() {
   configureNavigation();
   configureFaq();
   configureCarousel();
   configureLightbox();
+  configureScrollReveal();
   phoneInput.addEventListener("input", () => { phoneInput.value = formatPhone(phoneInput.value); });
   form.addEventListener("submit", handleSubmit);
   document.querySelector("#year").textContent = new Date().getFullYear();
