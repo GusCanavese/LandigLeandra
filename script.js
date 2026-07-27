@@ -1,7 +1,6 @@
 "use strict";
 
-// PREENCHER: número completo com DDI e DDD, somente dígitos. Ex.: "55..."
-const whatsappNumber = "PREENCHER_NUMERO";
+const whatsappNumber = "553288463662";
 
 const menuButton = document.querySelector(".menu-toggle");
 const navigation = document.querySelector(".main-nav");
@@ -93,6 +92,19 @@ function showStatus(message) {
   statusMessage.classList.add("visible");
 }
 
+function trackWhatsAppLead(ctaLocation) {
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({ event: "whatsapp_lead_click", cta_location: ctaLocation });
+}
+
+function configureWhatsAppTracking() {
+  document.addEventListener("click", (event) => {
+    const link = event.target.closest('a[href*="wa.me/"], a[href*="api.whatsapp.com/"]');
+    if (!link) return;
+    trackWhatsAppLead(link.dataset.ctaLocation || "nao_identificada");
+  });
+}
+
 function handleSubmit(event) {
   event.preventDefault();
   statusMessage.classList.remove("visible");
@@ -101,6 +113,7 @@ function handleSubmit(event) {
   const submitButton = form.querySelector(".submit-button");
   submitButton.disabled = true;
   submitButton.textContent = "Abrindo WhatsApp...";
+  trackWhatsAppLead("formulario");
   window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(buildMessage())}`, "_blank", "noopener,noreferrer");
   window.setTimeout(() => { submitButton.disabled = false; submitButton.textContent = "Agendar diagnóstico gratuito"; showStatus("A mensagem foi preparada no WhatsApp. Confirme o envio por lá."); }, 600);
 }
@@ -243,6 +256,7 @@ function initialize() {
   configureCarousel();
   configureLightbox();
   configureScrollReveal();
+  configureWhatsAppTracking();
   phoneInput.addEventListener("input", () => { phoneInput.value = formatPhone(phoneInput.value); });
   form.addEventListener("submit", handleSubmit);
   document.querySelector("#year").textContent = new Date().getFullYear();

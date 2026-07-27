@@ -6,7 +6,7 @@
 @media(prefers-reduced-motion:reduce){.carousel-track{transition:none}}
 
 /* Entrada suave dos principais blocos, ativada somente quando o JavaScript está disponível. */
-.solution-grid article{display:grid;align-content:start}.solution-grid h3{grid-column:1/-1;margin:24px 4px 8px;font:500 23px var(--serif)}.process-button{margin-top:35px}
+.solution-grid article{display:grid;align-content:start;min-width:0}.solution-grid h2{grid-column:1/-1;margin:24px 4px 8px;font:500 23px var(--serif);overflow-wrap:break-word}.solution-grid h3{grid-column:1/-1;margin:8px 4px;font-size:12px;letter-spacing:1.2px;text-transform:uppercase}.pillar-icon{display:inline;padding:0;border:0;color:var(--accent)}.process-button{margin-top:35px}
 .reveal-ready .reveal{opacity:0;transform:translateY(20px);transition:opacity 600ms ease,transform 600ms ease;transition-delay:var(--reveal-delay,0ms)}
 .reveal-ready .reveal.is-visible{opacity:1;transform:translateY(0)}
 @media(min-width:901px){.solution-grid{grid-template-columns:repeat(3,1fr);gap:35px}.solution-grid article span{margin-right:0}}
@@ -14,6 +14,9 @@
 
 /* Responsive refinements for the existing layout */
 img,video,svg{max-width:100%}
+.tags{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.tags span{display:grid;gap:3px;min-width:0}.tags strong{font-size:12px}.tags small{color:var(--muted);font-size:11px;line-height:1.4}
+.instagram-link{display:inline-flex;align-items:center;gap:9px;margin:4px 0 2px;padding:9px 14px;border:1px solid var(--accent);color:var(--primary);font-size:12px;font-weight:700;letter-spacing:.4px}.instagram-link svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.7}.instagram-link:hover{background:var(--primary);border-color:var(--primary);color:var(--white)}
+.whatsapp-float{position:fixed;right:24px;bottom:24px;z-index:60;display:inline-flex;align-items:center;gap:12px;min-height:58px;padding:7px 20px 7px 7px;border:2px solid #18c968;border-radius:999px;background:var(--white);color:#111c25;box-shadow:0 9px 28px rgba(12,26,36,.16);font-size:11px;font-weight:700;letter-spacing:1.1px;text-transform:uppercase;animation:whatsapp-attention 4s ease-in-out infinite}.whatsapp-float:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(12,26,36,.22)}.whatsapp-float-icon{display:grid;place-items:center;flex:0 0 42px;width:42px;height:42px;border-radius:50%;background:#18c968;color:var(--white)}.whatsapp-float-icon svg{width:25px;height:25px;fill:none;stroke:currentColor;stroke-width:1.55;stroke-linecap:round;stroke-linejoin:round}.whatsapp-float-label{white-space:nowrap}@keyframes whatsapp-attention{0%,82%,100%{transform:translateY(0);box-shadow:0 9px 28px rgba(12,26,36,.16)}88%{transform:translateY(-3px);box-shadow:0 13px 34px rgba(24,201,104,.24)}94%{transform:translateY(0)}}
 
 @media(max-width:900px){
   .main-nav{overscroll-behavior:contain}
@@ -72,7 +75,10 @@ img,video,svg{max-width:100%}
   .about .about-visual{padding:20px 10px 0 0}
   .about .about-accent{left:22px;bottom:34px}
   .about .about-photo{height:clamp(390px,120vw,500px)}
+  .tags{grid-template-columns:1fr}
   .tags span{padding:7px 10px}
+  .instagram-link{min-height:44px}
+  .whatsapp-float{right:14px;bottom:14px;min-height:54px;padding:6px 14px 6px 6px}.whatsapp-float-icon{flex-basis:38px;width:38px;height:38px}.whatsapp-float-icon svg{width:23px;height:23px}.whatsapp-float-label{font-size:9px;letter-spacing:.8px}
 
   .testimonial-carousel{margin-top:34px}
   .testimonial-card{min-height:0;padding:12px}
